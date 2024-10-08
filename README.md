@@ -24,5 +24,5 @@ Roco Sales Management System is a Django-based application designed to streamlin
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/roco-sales-management.git
-   cd roco-sales-management
+   git clone https://github.com/JesusVergara89/RocoCMR.git
+   cd CMRoco
