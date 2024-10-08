@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="text-center my-8">
+    <h1 class="text-xl font-semibold">¿Estás seguro de que quieres eliminar "{{ object.name }}"?</h1>
+    <form method="POST" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Sí, eliminar</button>
+      <a href="{% url 'products' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}
+

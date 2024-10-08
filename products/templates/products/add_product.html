@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block content %}
+<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Add Products</h1>
+
+<div class="container mx-auto p-10">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden md:max-w-xl">
+        <div class="md:flex">
+            <div class="w-full px-6 py-8 md:p-8">
+                <p class="mt-4 text-gray-600">Please fill out the form below to add product.</p>
+                <form class="mt-6" method="post" action="{% url 'add_product' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+                        {{ form.name|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="price" class="block text-sm font-medium text-gray-700">Price:</label>
+                        {{ form.price|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
+                        {{ form.description|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity:</label>
+                        {{ form.quantity|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        {{ form.available|add_class:"mr-2" }}
+                        <label>{{ form.available.label }}</label>
+                    </div>
+                    
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Add product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
