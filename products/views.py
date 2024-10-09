@@ -19,6 +19,17 @@ class DeleteProductView(LoginRequiredMixin, generic.DeleteView):
         if not request.user.is_superuser:
             return render(request, '403_error.html', status=403)
         return super().dispatch(request, *args, **kwargs)
+    
+class UpdateProductView(LoginRequiredMixin, generic.UpdateView):
+    model = Product
+    template_name = 'products/update_product.html'
+    form_class = ProductForm
+    success_url = reverse_lazy('products')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return render(request, '403_error.html', status=403)
+        return super().dispatch(request, *args, **kwargs)
 
 class ProductFormView(LoginRequiredMixin, generic.FormView):
     template_name = 'products/add_product.html'

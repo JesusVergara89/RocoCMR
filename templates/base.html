@@ -17,32 +17,24 @@
       <div class="h-screen flex overflow-hidden bg-gray-200">
         <!-- Sidebar -->
         <div
-          class="absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300"
+          class="absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300 z-50"
           id="sidebar"
         >
           <!-- Your Sidebar Content -->
           <div class="p-4">
             <h1 class="text-2xl font-semibold">Roco Global Services</h1>
-
             <ul class="mt-4">
               <li class="mb-2">
-                <a
-                  href="{% url 'products' %}"
-                  class="block hover:text-blue-800"
-                  >Home</a
-                >
+                <a href="{% url 'products' %}" class="block hover:text-blue-800">Home</a>
               </li>
               <li class="mb-2">
-                <a href="{% url 'login' %}" class="block hover:text-blue-800"
-                  >Login</a
-                >
+                <a href="{% url 'login' %}" class="block hover:text-blue-800">Login</a>
               </li>
               <li class="mb-2">
-                <a
-                  href="{% url 'add_product' %}"
-                  class="block hover:text-blue-800"
-                  >Add product</a
-                >
+                <a href="{% url 'add_product' %}" class="block hover:text-blue-800">Add product</a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'vendors' %}" class="block hover:text-blue-800">Vendors</a>
               </li>
               <li class="mb-2">
                 <a href="{% url 'register' %}" class="block hover:text-blue-800">Register vendor</a>
@@ -52,6 +44,12 @@
               </li>
               <li class="mb-2">
                 <a href="{% url 'add_clients' %}" class="block hover:text-blue-800">Register client</a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'orders' %}" class="block hover:text-blue-800">Orders</a>
+              </li>
+              <li class="mb-2">
+                <a href="{% url 'add_orders' %}" class="block hover:text-blue-800">Add orders</a>
               </li>
             </ul>
           </div>
@@ -64,13 +62,13 @@
             <div class="container mx-auto">
               <div class="flex justify-between items-center py-4 px-2">
                 <div class="flex justify-between items-center p-4 bg-white shadow-md">
-                    <h1 class="text-xl font-semibold mr-10">
-                      <a href="{% url 'products' %}" class="block hover:text-indigo-950 hidden md:block"> <!-- Añadir clases para la visibilidad -->
-                        Roco CMR
-                      </a>
-                    </h1>
-                    <div>
-                      {% if user.is_authenticated %}
+                  <h1 class="text-xl font-semibold mr-10">
+                    <a href="{% url 'products' %}" class="block hover:text-indigo-950 hidden md:block">
+                      Roco CMR
+                    </a>
+                  </h1>
+                  <div>
+                    {% if user.is_authenticated %}
                       <div class="flex items-center gap-6">
                         <span class="text-gray-700 mr-4">Hi {{ user.username }}!</span>
                         <form method="post" action="{% url 'logout' %}" class="flex items-center">
@@ -80,31 +78,16 @@
                           </button>
                         </form>
                       </div>
-                      {% else %}
+                    {% else %}
                       <a href="{% url 'login' %}" class="rounded border border-blue-600 bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 transition duration-200">
                         Login
                       </a>
-                      {% endif %}
-                    </div>
+                    {% endif %}
                   </div>
-                  
-                <button
-                  class="text-gray-500 hover:text-gray-600"
-                  id="open-sidebar"
-                >
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    ></path>
+                </div>
+                <button class="text-gray-500 hover:text-gray-600" id="open-sidebar">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                   </svg>
                 </button>
               </div>

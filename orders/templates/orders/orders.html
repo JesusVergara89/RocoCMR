@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Your Orders</h1>
+
+{% if orders %}
+<div class="container mx-auto p-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> 
+        {% for order in orders %}
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
+            
+            <img class="rounded-t-lg" src="{{ order.product.url_image }}" alt="" />
+            
+            <div class="p-5 flex-1">
+                <a href="{% url 'delete_orders' order.id %}" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:; position: absolute; top: 10"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg>
+                </a>
+
+                <h3 class="text-blue-500 hover:text-blue-700 transition duration-300 absolute top-10" href="{% url 'update_orders' order.id %}">
+                    No:{{ order.id }}
+                 </h3>                 
+                
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Order for {{ order.product.name }}</h5>
+
+                <div class="flex-1">
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Client:</strong> {{ order.client.business_name }} 
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Name:</strong> {{ order.client.name }} {{ order.client.last_name }} 
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Sales Associate:</strong> <span class="text-gray-600 dark:text-gray-300">{{ order.sales_associate.username }} </span>
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Quantity:</strong> <span class="text-gray-600 dark:text-gray-300">{{ order.quantity }} </span>
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Order Date:</strong> <span class="text-gray-600 dark:text-gray-300">{{ order.created_at|date:"F j, Y" }} </span>
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Comment:</strong> <span class="text-gray-600 dark:text-gray-300">{{ order.comments }} </span>
+                    </p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        <strong>Total Order Amount:</strong> 
+                        <span class="text-gray-600 dark:text-gray-300">
+                            ${{ order.total_price|floatformat:2|intcomma }}
+                        </span>
+                    </p>
+                </div>            
+
+                <a href="{% url 'update_orders' order.id %}" class="block mt-4 text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">Edit Order</a>
+                <div class="flex gap-10 justify-center mt-4 py-5">
+                    {% if order.in_warehouse %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#a7c957;transform: ;msFilter:;">
+                        <path d="M17 10V6l-5 4V6l-5 4V4H2v16h20V6l-5 4zm-8 7H7v-3h2v3zm5 0h-2v-3h2v3zm5 0h-2v-3h2v3z"></path>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#e63946;transform: ;msFilter:;">
+                        <path d="M17 10V6l-5 4V6l-5 4V4H2v16h20V6l-5 4zm-8 7H7v-3h2v3zm5 0h-2v-3h2v3zm5 0h-2v-3h2v3z"></path>
+                    </svg>
+                    {% endif %}
+
+                    {% if order.delivered %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#a7c957;transform: ;msFilter:;">
+                        <path d="M18.842 15.296a1.61 1.61 0 0 0 1.892-1.189v-.001a1.609 1.609 0 0 0-1.177-1.949l-4.576-1.133L9.825 4.21l-2.224-.225 2.931 6.589-4.449-.449-2.312-3.829-1.38.31 1.24 5.52 15.211 3.17zM3 18h18v2H3z"></path>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#e63946;transform: ;msFilter:;">
+                        <path d="M18.842 15.296a1.61 1.61 0 0 0 1.892-1.189v-.001a1.609 1.609 0 0 0-1.177-1.949l-4.576-1.133L9.825 4.21l-2.224-.225 2.931 6.589-4.449-.449-2.312-3.829-1.38.31 1.24 5.52 15.211 3.17zM3 18h18v2H3z"></path>
+                    </svg>
+                    {% endif %}
+
+                    {% if order.paid %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#a7c957;transform: ;msFilter:;">
+                        <path d="M12 15c-1.84 0-2-.86-2-1H8c0 .92.66 2.55 3 2.92V18h2v-1.08c2-.34 3-1.63 3-2.92 0-1.12-.52-3-4-3-2 0-2-.63-2-1s.7-1 2-1 1.39.64 1.4 1h2A3 3 0 0 0 13 7.12V6h-2v1.09C9 7.42 8 8.71 8 10c0 1.12.52 3 4 3 2 0 2 .68 2 1s-.62 1-2 1z"></path>
+                        <path d="M5 2H2v2h2v17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4h2V2H5zm13 18H6V4h12z"></path>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 24 24" style="fill:#e63946;transform: ;msFilter:;">
+                        <path d="M12 15c-1.84 0-2-.86-2-1H8c0 .92.66 2.55 3 2.92V18h2v-1.08c2-.34 3-1.63 3-2.92 0-1.12-.52-3-4-3-2 0-2-.63-2-1s.7-1 2-1 1.39.64 1.4 1h2A3 3 0 0 0 13 7.12V6h-2v1.09C9 7.42 8 8.71 8 10c0 1.12.52 3 4 3 2 0 2 .68 2 1s-.62 1-2 1z"></path>
+                        <path d="M5 2H2v2h2v17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4h2V2H5zm13 18H6V4h12z"></path>
+                    </svg>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="flex flex-col items-center justify-center p-10 bg-gray-100 rounded-lg shadow-md">
+    <p class="text-gray-900 text-xl mb-4">You don't have any registered orders yet.</p>
+    <p class="text-gray-600">Start adding orders to boost your sales!</p>
+    <a href="{% url 'add_orders' %}" class="mt-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-200">Add Order</a>
+</div>
+{% endif %}
+
+{% endblock %}

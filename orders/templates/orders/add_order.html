@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">New Order</h1>
+<div class="container mx-auto p-10">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden md:max-w-xl">
+        <div class="md:flex">
+            <div class="w-full px-6 py-8 md:p-8">
+                <p class="mt-4 text-gray-600">Please fill out the form below to add order.</p>
+                <form class="mt-6" method="post" action="{% url 'add_orders' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="client" class="block text-sm font-medium text-gray-700">Client:</label>
+                        {{ form.client|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="product" class="block text-sm font-medium text-gray-700">Product:</label>
+                        {{ form.product|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments:</label>
+                        {{ form.comments|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="sales_associate" class="block text-sm font-medium text-gray-700">Sales associate:</label>
+                        {{ form.sales_associate|add_class:"border p-2 rounded w-full" }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity:</label>
+                        {{ form.quantity|add_class:"border p-2 rounded w-full" }}
+                    </div>             
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Add order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

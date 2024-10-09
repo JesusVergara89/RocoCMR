@@ -28,6 +28,10 @@
                         <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity:</label>
                         {{ form.quantity|add_class:"border p-2 rounded w-full" }}
                     </div>
+                    <div class="mb-4">
+                        <label for="url_image" class="block text-sm font-medium text-gray-700">URL image:</label>
+                        {{ form.url_image|add_class:"border p-2 rounded w-full" }}
+                    </div>
                     <div class="mb-4 flex items-center">
                         {{ form.available|add_class:"mr-2" }}
                         <label>{{ form.available.label }}</label>
