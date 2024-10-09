@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% load humanize %}
 {% block content %}
 <h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Products</h1>
 
@@ -16,6 +17,9 @@
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
               <strong>Updated:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.updated|date:"F j, Y" }} </span>
           </p>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            <strong>Price:</strong> <span class="text-gray-600 dark:text-gray-300">${{ product.price|floatformat:2|intcomma }} </span>
+        </p>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
               <strong>Quantity:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.quantity }} </span>
           </p>
