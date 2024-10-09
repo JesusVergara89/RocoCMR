@@ -12,6 +12,7 @@ from .forms import OrderForm
 from products.models import Product
 from django.shortcuts import render
 from decimal import Decimal
+from .tasks import send_order_invoice
 
 class OrdersView(LoginRequiredMixin, ListView):
     model = Order
@@ -42,6 +43,7 @@ class OrderFormView(LoginRequiredMixin, CreateView):
         order.save() 
         product.quantity -= order.quantity
         product.save()
+        send_order_invoice(order.id)
         return super().form_valid(form)
 
     
@@ -81,10 +83,8 @@ class DeleteOrderView(LoginRequiredMixin, DeleteView):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-
-    taxes = order.total_price() * Decimal('0.19')
     
-    html = render_to_string('orders/pdf.html', {'order': order, 'taxes': taxes})
+    html = render_to_string('orders/pdf.html', {'order': order})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=order_{order.id}.pdf'

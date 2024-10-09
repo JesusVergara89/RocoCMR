@@ -122,3 +122,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "products"
 LOGOUT_REDIRECT_URL = "products"
 LOGIN_URL = "login"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'pises.eng@gmail.com'
+EMAIL_HOST_PASSWORD = 'tmorpkxnhwqxmtxi'
+
