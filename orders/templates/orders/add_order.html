@@ -8,7 +8,25 @@
         <div class="md:flex">
             <div class="w-full px-6 py-8 md:p-8">
                 <p class="mt-4 text-gray-600">Please fill out the form below to add order.</p>
-                <form class="mt-6" method="post" action="{% url 'add_orders' %}">
+                
+                <div id="loader" style="
+                    display: none; 
+                    position: absolute; 
+                    top: 50%; 
+                    left: 50%; 
+                    transform: translate(-50%, -50%); 
+                    text-align: center; 
+                    font-size: 1.5em; 
+                    color: #fff; 
+                    background-color: #002147; 
+                    padding: 20px;
+                    border-radius: 
+                ">
+                    Processing order...
+                </div>
+
+                
+                <form class="mt-6" id="orderForm" method="post" action="{% url 'add_orders' %}">
                     {% csrf_token %}
                     
                     <div class="mb-4">
@@ -37,4 +55,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("orderForm").addEventListener("submit", function() {
+        document.getElementById("loader").style.display = "block";
+    });
+</script>
 {% endblock %}

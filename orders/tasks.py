@@ -7,7 +7,7 @@ from .models import Order
 
 def send_order_invoice(order_id):
     order = Order.objects.get(id=order_id)
-    subject = f'My Shop - Invoice no. {order.id}'
+    subject = f'Roco Global Services - Order no. {order.id}'
     message = 'Please, find attached the invoice for your recent order.'
 
     fixed_emails = ['jesusmanuelv1989@gmail.com', 'jesusvergara890109@gmail.com']
