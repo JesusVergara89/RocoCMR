@@ -28,6 +28,18 @@
                 <p class="my-2 text-gray-600">
                     <strong>Username:</strong> {{ vendor.username }}
                 </p>
+                <p class="my-2 text-gray-600">
+                    <strong>Name:</strong> {{ vendor.profile.name }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <strong>Phone:</strong> {{ vendor.profile.phone }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <strong>Email:</strong> {{ vendor.email }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <strong>Address:</strong> {{ vendor.profile.address }}
+                </p>
             </div>
         </div>
         {% endfor %}
