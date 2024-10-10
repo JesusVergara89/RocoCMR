@@ -19,6 +19,7 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
     delivery_date = models.DateField(null=True, blank=True)
     pay_date = models.DateField(null=True, blank=True)
+    canceled = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return f'{self.client} purchased {self.quantity} of {self.product}'

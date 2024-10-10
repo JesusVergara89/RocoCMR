@@ -5,12 +5,13 @@ from .models import Order
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ('client', 'product', 'comments', 'sales_associate', 'quantity', 'in_warehouse', 'delivered', 'paid')
+        fields = ('client', 'product', 'comments', 'sales_associate', 'quantity', 'in_warehouse', 'delivered', 'paid', 'canceled')
         widgets = {
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter quantity'}),
             'in_warehouse': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'delivered': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'paid': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'canceled': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
             'client': 'Client',
@@ -19,6 +20,7 @@ class OrderForm(ModelForm):
             'in_warehouse': 'In Warehouse',
             'delivered': 'Delivered',
             'paid': 'Paid',
+            'canceled': 'canceled'
         }
 
     def __init__(self, *args, **kwargs):

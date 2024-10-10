@@ -3,7 +3,7 @@ from .models import Product
 from .forms import ProductForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 
 class ProductsView(generic.ListView):
     model = Product
