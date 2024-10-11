@@ -101,7 +101,6 @@
           sidebar.classList.toggle("-translate-x-full");
         });
 
-        // Close the sidebar when clicking outside of it
         document.addEventListener("click", (e) => {
           if (
             !sidebar.contains(e.target) &&
@@ -110,6 +109,26 @@
             sidebar.classList.add("-translate-x-full");
           }
         });
+
+        /**
+         * Calcular el total de los precios de los productos
+         */
+          document.addEventListener('DOMContentLoaded', function () {
+              let total = 0;
+              const prices = document.querySelectorAll('.total-price');
+      
+              prices.forEach(priceElement => {
+                  const priceText = priceElement.textContent.replace(/[$,]/g, ''); 
+                  const priceValue = parseFloat(priceText);
+                  if (!isNaN(priceValue)) {
+                      total += priceValue;
+                  }
+                 
+              });
+              console.log(total);
+              document.getElementById('total-amount').textContent = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          });
+
       </script>
     </div>
   </body>

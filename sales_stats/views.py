@@ -94,5 +94,50 @@ class PieChartOverViewProduct(LoginRequiredMixin, ListView):
         context['stock_data'] = stock_data
 
         return context
+    
+class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'sales_stats/seller_by_money_recovery.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        queryset = Order.objects.all()
+        sales_associate_id = self.request.GET.get('sales_associate')
+        product_id = self.request.GET.get('product')
+        paid = self.request.GET.get('paid')
+        delivered = self.request.GET.get('delivered')
+        canceled = self.request.GET.get('canceled')
+
+        if sales_associate_id:
+            queryset = queryset.filter(sales_associate_id=sales_associate_id)
+
+        if product_id:
+            queryset = queryset.filter(product_id=product_id)
+
+        if paid is not None and paid != '':
+            queryset = queryset.filter(paid=paid)
+
+        if delivered is not None and delivered != '':
+            queryset = queryset.filter(delivered=delivered)
+
+        if canceled is not None and canceled != '':
+            queryset = queryset.filter(canceled=canceled)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['sales_associates'] = User.objects.all()
+        context['products'] = Product.objects.all()
+
+        orders = context['orders']
+        for order in orders:
+            order.total_price = order.get_total_price()
+
+        return context
+
+
+
 
 

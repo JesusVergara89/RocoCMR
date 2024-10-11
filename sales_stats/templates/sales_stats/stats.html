@@ -38,6 +38,23 @@
     </div>
 </div>
 
+<div class="container mx-auto px-4 flex">
+    <div class="flex flex-col items-center"> 
+        <div class="relative max-w-sm m-2">
+            <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
+            <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
+                <div class="flex flex-col items-center"> 
+                    <h2 class="my-2 text-lg font-bold text-gray-800">Financial Summary</h2>
+                    <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
+                </div>
+                <a href="{% url 'seller_by_money_recovery' %}" class="block w-40 mt-4 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                    SEE
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 </div>
 {% endblock %}
