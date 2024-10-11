@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import StatsView, OrderssAssociateByQuantityProduct
+from .views import StatsView, OrderOverView, PieChartOverViewProduct
 
 urlpatterns = [
     path("", StatsView.as_view(), name="stats"),
-    path("sales-associate-by-quantity-product/", OrderssAssociateByQuantityProduct.as_view(), name="sales_associate_by_quantity_product"),
+    path('order-stats/', OrderOverView.as_view(), name='order_stats'),
+    path('order-pie-chart/', PieChartOverViewProduct.as_view(), name='order_pie_chart'),
 ]

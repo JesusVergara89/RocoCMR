@@ -40,8 +40,12 @@ class Order(models.Model):
         return self.subtotal_price() + self.get_taxes()
 
     def save(self, *args, **kwargs):
+        if self.canceled:
+            self.quantity = 0
+
         if self.delivered and not self.delivery_date and not self.in_warehouse:
             self.delivery_date = timezone.now().date()
+            
         elif not self.delivered:
             self.delivery_date = None
 

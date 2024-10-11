@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-l text-blue-950 font-bold mt-1">Product Stock Distribution</h1>
+    <a href="{% url 'stats' %}" class="block w-40 mt-4 mb-6 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+        Back to stats
+      </a>    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for product, data in stock_data.items %}
+        <div class="p-6 shadow-md rounded-lg border border-gray-300">
+                <h2 class="text-lg font-semibold text-center mb-4">{{ product }}</h2>
+                <canvas id="pieChart-{{ forloop.counter }}" width="500" height="500"></canvas>
+                <script>
+                    var ctx = document.getElementById('pieChart-{{ forloop.counter }}').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Stock', 'Ordered', 'Delivered', 'Paid', 'Pending delivery'],
+                            datasets: [{
+                                data: [
+                                    {{ data.stock }},
+                                    {{ data.ordered }},
+                                    {{ data.delivered }},
+                                    {{ data.paid }},
+                                    {{ data.in_warehouse }}
+                                ],
+                                backgroundColor: [
+                                    'rgba(164, 200, 225, 0.6)',
+                                    'rgba(252, 228, 176, 0.6)', 
+                                    'rgba(178, 225, 184, 0.6)', 
+                                    'rgba(178, 225, 184, 0.6)', 
+                                    'rgba(246, 180, 168, 0.6)'  
+                                ],
+                                borderColor: [
+                                    'rgba(164, 200, 225, 1)', 
+                                    'rgba(252, 228, 176, 1)', 
+                                    'rgba(178, 225, 184, 1)', 
+                                    'rgba(178, 225, 184, 1)', 
+                                    'rgba(246, 180, 168, 1)'  
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false 
+                                },
+                                title: {
+                                    display: true,
+                                    text: ''
+                                }
+                            }
+                        }
+                    });
+                </script>
+                <div class="flex flex-col mt-4 text-left">
+                    <div class="bg-blue-200 p-2 rounded">
+                        <span class="text-gray-700 font-bold">Stock:</span> {{ data.stock }} ({{ data.new_stock_percentage | floatformat:2 }}%)
+                    </div>
+                    <div class="bg-yellow-200 p-2 rounded">
+                        <span class="text-gray-700 font-bold">Ordered:</span> {{ data.ordered }} ({{ data.ordered_percentage|floatformat:2 }}%)
+                    </div>
+                    <div class="bg-green-200 p-2 rounded"> 
+                        <span class="text-gray-700 font-bold">Delivered:</span> {{ data.delivered }} ({{ data.delivered_percentage|floatformat:2 }}%)
+                    </div>
+                    <div class="bg-purple-200 p-2 rounded"> 
+                        <span class="text-gray-700 font-bold">Paid:</span> {{ data.paid }} ({{ data.paid_percentage|floatformat:2 }}%)
+                    </div>
+                    <div class="bg-red-200 p-2 rounded"> 
+                        <span class="text-gray-700 font-bold">Pending delivery:</span> {{ data.in_warehouse }} ({{ data.in_warehouse_percentage|floatformat:2 }}%)
+                    </div>
+                </div>                
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

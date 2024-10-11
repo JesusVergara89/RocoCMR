@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<h1 class="text-l text-blue-950 font-bold mt-1">Order overview</h1>
+<a href="{% url 'stats' %}" class="block w-40 mt-4 mb-6 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+    Back to stats
+  </a>
+<form method="GET" action="" class="space-y-4">
+    <div class="flex flex-wrap gap-4">
+
+        <div class="flex flex-col">
+            <label for="sales_associate" class="text-sm font-medium text-gray-700">Seller:</label>
+            <select name="sales_associate" id="sales_associate" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">All sellers</option>
+                {% for sales_associate in sales_associates %}
+                    <option value="{{ sales_associate.id }}" {% if request.GET.sales_associate == sales_associate.id|stringformat:"s" %}selected{% endif %}>
+                        {{ sales_associate.username }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="product" class="text-sm font-medium text-gray-700">products:</label>
+            <select name="product" id="product" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">All products</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" {% if request.GET.product == product.id|stringformat:"s" %}selected{% endif %}>
+                        {{ product.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="paid" class="text-sm font-medium text-gray-700">Paid:</label>
+            <select name="paid" id="paid" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Any</option>
+                <option value="True" {% if request.GET.paid == 'True' %}selected{% endif %}>Yes</option>
+                <option value="False" {% if request.GET.paid == 'False' %}selected{% endif %}>Not</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="in_warehouse" class="text-sm font-medium text-gray-700">Warehouse:</label>
+            <select name="in_warehouse" id="in_warehouse" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Any</option>
+                <option value="True" {% if request.GET.in_warehouse == 'True' %}selected{% endif %}>Yes</option>
+                <option value="False" {% if request.GET.in_warehouse == 'False' %}selected{% endif %}>Not</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="delivered" class="text-sm font-medium text-gray-700">Delivered:</label>
+            <select name="delivered" id="delivered" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Any</option>
+                <option value="True" {% if request.GET.delivered == 'True' %}selected{% endif %}>Yes</option>
+                <option value="False" {% if request.GET.delivered == 'False' %}selected{% endif %}>Not</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="canceled" class="text-sm font-medium text-gray-700">Canceled:</label>
+            <select name="canceled" id="canceled" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Any</option>
+                <option value="True" {% if request.GET.canceled == 'True' %}selected{% endif %}>Yes</option>
+                <option value="False" {% if request.GET.canceled == 'False' %}selected{% endif %}>Not</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Filter</button>
+</form>
+
+<h2 class="text-xl font-bold my-4">Orders</h2>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+            <tr>
+                <th class="px-4 py-2">Client</th>
+                <th class="px-4 py-2">Product</th>
+                <th class="px-4 py-2">Quantity</th>
+                <th class="px-4 py-2">Seller</th>
+                <th class="px-4 py-2">Paid</th>
+                <th class="px-4 py-2">Warehouse</th>
+                <th class="px-4 py-2">Delivered</th>
+                <th class="px-4 py-2">Canceled</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr class="border-t border-gray-200">
+                <td class="px-4 py-2">{{ order.client }}</td>
+                <td class="px-4 py-2">{{ order.product }}</td>
+                <td class="px-4 py-2">{{ order.quantity }}</td>
+                <td class="px-4 py-2">{{ order.sales_associate }}</td>
+
+                <td class="px-4 py-2 {% if order.paid %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-center">
+                    {{ order.paid|yesno:"Yes,Not" }}
+                </td>
+
+                <td class="px-4 py-2 {% if order.in_warehouse %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-center">
+                    {{ order.in_warehouse|yesno:"Yes,Not" }}
+                </td>
+
+                <td class="px-4 py-2 {% if order.delivered %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-center">
+                    {{ order.delivered|yesno:"Yes,Not" }}
+                </td>
+
+                <td class="px-4 py-2 {% if order.canceled %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-center">
+                    {{ order.canceled|yesno:"Yes,Not" }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

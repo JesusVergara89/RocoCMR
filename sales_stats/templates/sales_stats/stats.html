@@ -2,21 +2,42 @@
 {% load humanize %}
 {% block content %}
 <div class="container mx-auto px-4">
-    <h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Welcome to Stats</h1>
+<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Welcome to Stats</h1>
+<div class="container mx-auto px-4 flex justify-center align-center">
+<div class="container mx-auto px-4 flex">
     <div class="flex flex-col items-center"> 
         <div class="relative max-w-sm m-2">
             <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
             <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
                 <div class="flex flex-col items-center"> 
-                    <h2 class="my-2 text-lg font-bold text-gray-800">Sales associate by quantity products</h2>
+                    <h2 class="my-2 text-lg font-bold text-gray-800">Orders overview</h2>
                     <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
                 </div>
-        
-                <a href="{% url 'sales_associate_by_quantity_product' %}" class="block w-40 mt-4 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
-                    SEE STATS
+                <a href="{% url 'order_stats' %}" class="block w-40 mt-4 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                    SEE
                 </a>
             </div>
         </div>
     </div>
+</div>
+
+<div class="container mx-auto px-4 flex">
+    <div class="flex flex-col items-center"> 
+        <div class="relative max-w-sm m-2">
+            <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
+            <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
+                <div class="flex flex-col items-center"> 
+                    <h2 class="my-2 text-lg font-bold text-gray-800">Product Stock Distribution</h2>
+                    <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
+                </div>
+                <a href="{% url 'order_pie_chart' %}" class="block w-40 mt-4 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                    SEE
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 </div>
 {% endblock %}
