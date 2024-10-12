@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-xl text-blue-950 font-bold mt-1">Orders Follow Up</h1>
+    <a href="{% url 'stats' %}" class="block w-40 mt-4 mb-6 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+        Back to Stats
+    </a>
+
+    <form method="GET" class="mb-4 grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center">
+                <label for="product" class="mr-2">Product:</label>
+                <select name="product" id="product" class="border rounded p-1">
+                    <option value="">All Products</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}"{% if request.GET.product|stringformat:"s" == product.id|stringformat:"s" %} selected{% endif %}>{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="flex items-center">
+                <label for="sales_associate" class="mr-2">Seller:</label>
+                <select name="sales_associate" id="sales_associate" class="border rounded p-1">
+                    <option value="">All Sellers</option>
+                    {% for associate in sales_associates %}
+                        <option value="{{ associate.id }}"{% if request.GET.sales_associate|stringformat:"s" == associate.id|stringformat:"s" %} selected{% endif %}>{{ associate.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="flex items-center">
+                <label for="start_date" class="mr-2">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" class="border rounded p-1" value="{{ request.GET.start_date }}">
+            </div>
+    
+            <div class="flex items-center">
+                <label for="end_date" class="mr-2">End Date:</label>
+                <input type="date" name="end_date" id="end_date" class="border rounded p-1" value="{{ request.GET.end_date }}">
+            </div>
+        </div>
+        
+        <button type="submit" class="bg-blue-500 w-40 hover:bg-blue-700 text-white font-bold rounded p-2 mt-4">Filter</button>
+    </form>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full table-auto">
+            <thead class="bg-blue-500 text-white">
+                <tr>
+                    <th class="px-4 py-2 text-sm">Order</th>
+                    <th class="px-4 py-2 text-sm">Product</th>
+                    <th class="px-4 py-2 text-sm">Seller</th>
+                    <th class="px-4 py-2 text-sm">Creation</th>
+                    <th class="px-4 py-2 text-sm">Delivery Date (L)</th>
+                    <th class="px-4 py-2 text-sm">Delivered</th>
+                    <th class="px-4 py-2 text-sm">Delivered Date</th>
+                    <th class="px-4 py-2 text-sm">Paid Date (L)</th>
+                    <th class="px-4 py-2 text-sm">Paid</th>
+                    <th class="px-4 py-2 text-sm">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="hover:bg-gray-100">
+                    <td class="border px-4 py-2 text-sm">{{ order.id }}</td>
+                    <td class="border px-4 py-2 text-sm">{{ order.product }}</td>
+                    <td class="border px-4 py-2 text-sm">{{ order.sales_associate }}</td>
+                    <td class="border px-4 py-2 text-sm">{{ order.created_at|date:"Y/m/d" }}</td>
+                    <td class="border px-4 py-2 text-sm" style="color: {{ order.delivery_status_color }}">{{ order.last_delivery_date|date:"Y/m/d" }}</td>
+                    <td style="background-color: {{ order.delivery_status_color }}" class="border px-4 py-2 text-sm">{{ order.delivered|yesno:"Yes,No" }}</td>
+                    <td class="border px-4 py-2 text-sm">{{ order.delivery_date|date:"Y/m/d" }}</td>
+                    <td class="border px-4 py-2 text-sm" style="color: {{ order.payment_status_color }}">{{ order.last_paid_date|date:"Y/m/d" }}</td>
+                    <td style="background-color: {{ order.payment_status_color }}" class="border px-4 py-2 text-sm">{{ order.paid|yesno:"Yes,No" }}</td>
+                    <td class="border px-4 py-2 text-sm" style="color: {{ order.payment_status_color }}">{{ order.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

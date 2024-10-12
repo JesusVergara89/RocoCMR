@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order
 from products.models import Product
 from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import timedelta
 
 class StatsView(LoginRequiredMixin,TemplateView):
     template_name = "sales_stats/stats.html"
@@ -137,7 +139,86 @@ class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
 
         return context
 
+class OrdersProgress(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'sales_stats/orders_progress.html'
+    context_object_name = 'orders'
 
+    def get_queryset(self):
+        queryset = Order.objects.all()
+        sales_associate_id = self.request.GET.get('sales_associate')
+        product_id = self.request.GET.get('product')
 
+        # Obtener las fechas de inicio y fin de la solicitud GET
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
 
+        # Filtrar por vendedor
+        if sales_associate_id:
+            queryset = queryset.filter(sales_associate_id=sales_associate_id)
 
+        # Filtrar por producto
+        if product_id:
+            queryset = queryset.filter(product_id=product_id)
+
+        # Filtrar por fecha de creación (created_at)
+        if start_date:
+            queryset = queryset.filter(created_at__gte=start_date)
+
+        if end_date:
+            queryset = queryset.filter(created_at__lte=end_date)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['sales_associates'] = User.objects.all()
+        context['products'] = Product.objects.all()
+
+        for order in context['orders']:
+            order.delivery_status_color = 'red'
+            order.payment_status_color = 'red'
+            order.status = 'Not delivered'
+            order.last_delivery_date = order.created_at + timedelta(days=2)
+
+            if order.delivered:
+                if order.delivery_date:
+                    if order.delivery_date <= order.last_delivery_date:
+                        order.delivery_status_color = 'green'
+                        order.status = 'Delivered on time'
+                    else:
+                        order.status = 'Delivery delay'
+                    order.last_paid_date = order.delivery_date + timedelta(days=8)
+
+                    if order.paid:
+                        if order.pay_date:
+                            if order.pay_date <= order.last_paid_date:
+                                order.payment_status_color = 'green'
+                            else:
+                                order.payment_status_color = 'red'
+                                order.status = 'Late payment'
+                        else:
+                            order.status = 'Pending payment'
+                    else:
+                        if timezone.now().date() <= order.last_paid_date:
+                            order.payment_status_color = 'orange'
+                            order.status = 'Payment pending (on time)'
+                        else:
+                            order.payment_status_color = 'red'
+                            order.status = 'Payment overdue'
+                else:
+                    order.status = 'Delivered without date'
+                    order.last_paid_date = None
+            else:
+                if timezone.now().date() < order.last_delivery_date:
+                    order.delivery_status_color = 'orange'
+                    order.payment_status_color = 'orange'
+                    order.status = 'Delivered on time'
+                    order.last_paid_date = None
+                elif timezone.now().date() > order.last_delivery_date:
+                    order.delivery_status_color = 'red'
+                    order.payment_status_color = 'red'
+                    order.status = 'Delivery delay' 
+
+        return context
