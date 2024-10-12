@@ -180,7 +180,7 @@ class OrdersProgress(LoginRequiredMixin, ListView):
             order.delivery_status_color = 'red'
             order.payment_status_color = 'red'
             order.status = 'Not delivered'
-            order.last_delivery_date = order.created_at + timedelta(days=2)
+            order.last_delivery_date = order.created_at + timedelta(days=1)
 
             if order.delivered:
                 if order.delivery_date:
@@ -189,7 +189,7 @@ class OrdersProgress(LoginRequiredMixin, ListView):
                         order.status = 'Delivered on time'
                     else:
                         order.status = 'Delivery delay'
-                    order.last_paid_date = order.delivery_date + timedelta(days=8)
+                    order.last_paid_date = order.delivery_date + timedelta(days=1)
 
                     if order.paid:
                         if order.pay_date:
