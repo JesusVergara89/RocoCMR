@@ -54,9 +54,9 @@ class OrderOverView(LoginRequiredMixin, ListView):
         context['products'] = Product.objects.all()
         return context
     
-class PieChartOverViewProduct(LoginRequiredMixin, ListView):
+class PieChartOrdersVsStock(LoginRequiredMixin, ListView):
     model = Product
-    template_name = 'sales_stats/piechart.html'
+    template_name = 'sales_stats/order_vs_stock.html'
     context_object_name = 'products'
 
     def get_queryset(self):
@@ -99,6 +99,96 @@ class PieChartOverViewProduct(LoginRequiredMixin, ListView):
 
         return context
     
+class PieChartPaidVsStock(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = 'sales_stats/paid_vs_stock.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return Product.objects.filter(available=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders = Order.objects.all()
+        stock_data = {}
+
+        for product in context['products']:
+            orders_for_product = orders.filter(product=product)
+            ordered_quantity = orders_for_product.aggregate(Sum('quantity'))['quantity__sum'] or 0
+            delivered_quantity = orders_for_product.filter(delivered=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            paid_quantity = orders_for_product.filter(paid=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            in_warehouse_quantity = orders_for_product.filter(in_warehouse=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+            total_stock = product.quantity
+
+            ordered_percentage = (ordered_quantity / total_stock * 100) if total_stock > 0 else 0
+            delivered_percentage = (delivered_quantity / total_stock * 100) if total_stock > 0 else 0
+            paid_percentage = (paid_quantity / total_stock * 100) if total_stock > 0 else 0
+            in_warehouse_percentage = (in_warehouse_quantity / total_stock * 100) if total_stock > 0 else 0
+            new_stock_percentage = 100 - ordered_percentage - delivered_percentage - paid_percentage - in_warehouse_percentage
+
+            stock_data[product.name] = {
+                'stock': total_stock,
+                'ordered': ordered_quantity,
+                'delivered': delivered_quantity,
+                'paid': paid_quantity,
+                'in_warehouse': in_warehouse_quantity,
+                'ordered_percentage': ordered_percentage,
+                'delivered_percentage': delivered_percentage,
+                'paid_percentage': paid_percentage,
+                'in_warehouse_percentage': in_warehouse_percentage,
+                'new_stock_percentage': new_stock_percentage
+            }
+
+        context['stock_data'] = stock_data
+
+        return context    
+
+class PieChartDeliveredVsStock(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = 'sales_stats/delivered_vs_stock.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return Product.objects.filter(available=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders = Order.objects.all()
+        stock_data = {}
+
+        for product in context['products']:
+            orders_for_product = orders.filter(product=product)
+            ordered_quantity = orders_for_product.aggregate(Sum('quantity'))['quantity__sum'] or 0
+            delivered_quantity = orders_for_product.filter(delivered=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            paid_quantity = orders_for_product.filter(paid=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            in_warehouse_quantity = orders_for_product.filter(in_warehouse=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
+
+            total_stock = product.quantity
+
+            ordered_percentage = (ordered_quantity / total_stock * 100) if total_stock > 0 else 0
+            delivered_percentage = (delivered_quantity / total_stock * 100) if total_stock > 0 else 0
+            paid_percentage = (paid_quantity / total_stock * 100) if total_stock > 0 else 0
+            in_warehouse_percentage = (in_warehouse_quantity / total_stock * 100) if total_stock > 0 else 0
+            new_stock_percentage = 100 - ordered_percentage - delivered_percentage - paid_percentage - in_warehouse_percentage
+
+            stock_data[product.name] = {
+                'stock': total_stock,
+                'ordered': ordered_quantity,
+                'delivered': delivered_quantity,
+                'paid': paid_quantity,
+                'in_warehouse': in_warehouse_quantity,
+                'ordered_percentage': ordered_percentage,
+                'delivered_percentage': delivered_percentage,
+                'paid_percentage': paid_percentage,
+                'in_warehouse_percentage': in_warehouse_percentage,
+                'new_stock_percentage': new_stock_percentage
+            }
+
+        context['stock_data'] = stock_data
+
+        return context       
+
 class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
     model = Order
     template_name = 'sales_stats/seller_by_money_recovery.html'

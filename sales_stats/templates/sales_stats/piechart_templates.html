@@ -2,17 +2,21 @@
 {% load humanize %}
 {% block content %}
 <div class="container mx-auto px-4">
-    <h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Welcome to Stats</h1>
+    <h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Welcome pie charts</h1>
+    <h1 class="text-l text-blue-950 font-bold mt-1">Pie charts</h1>
+    <a href="{% url 'stats' %}" class="block w-40 mt-4 mb-6 mx-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+        Back to stats
+    </a>  
     <div class="container mx-auto px-4 flex flex-wrap justify-center">
 
         <div class="flex flex-col items-center m-2"> 
-            <div class="relative max-w-sm h-40 m-2"> 
+            <div class="relative max-w-sm h-40 m-2"> <!-- Fijar altura -->
                 <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
                 <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
                     <div class="flex flex-col items-center h-full"> 
-                        <h2 class="my-2 text-lg font-bold text-gray-800">Orders overview</h2>
+                        <h2 class="my-2 text-lg font-bold text-gray-800">Stock vs Orders</h2>
                         <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
-                        <a href="{% url 'order_stats' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                        <a href="{% url 'order_vs_stock' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
                             SEE
                         </a>
                     </div>
@@ -21,13 +25,13 @@
         </div>
 
         <div class="flex flex-col items-center m-2"> 
-            <div class="relative max-w-sm h-40 m-2"> 
+            <div class="relative max-w-sm h-40 m-2"> <!-- Fijar altura -->
                 <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
                 <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
                     <div class="flex flex-col items-center h-full"> 
-                        <h2 class="my-2 text-lg font-bold text-gray-800">Product Stock Distribution</h2>
+                        <h2 class="my-2 text-lg font-bold text-gray-800">Stock vs Paid</h2>
                         <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
-                        <a href="{% url 'pie_charts' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                        <a href="{% url 'paid_vs_stock' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
                             SEE
                         </a>
                     </div>
@@ -36,35 +40,20 @@
         </div>
 
         <div class="flex flex-col items-center m-2"> 
-            <div class="relative max-w-sm h-40 m-2"> 
+            <div class="relative max-w-sm h-40 m-2"> <!-- Fijar altura -->
                 <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
                 <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
                     <div class="flex flex-col items-center h-full"> 
-                        <h2 class="my-2 text-lg font-bold text-gray-800">Financial Summary</h2>
+                        <h2 class="my-2 text-lg font-bold text-gray-800">Stock vs Delivered</h2>
                         <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
-                        <a href="{% url 'seller_by_money_recovery' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                        <a href="{% url 'delivered_vs_stock' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
                             SEE
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="flex flex-col items-center m-2"> 
-            <div class="relative max-w-sm h-40 m-2"> 
-                <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-800 rounded-lg"></span>
-                <div class="relative h-full p-3 bg-white rounded-lg" style="border: 2px solid #003366;">
-                    <div class="flex flex-col items-center h-full"> 
-                        <h2 class="my-2 text-lg font-bold text-gray-800">Orders follow up</h2>
-                        <h3 class="my-2 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
-                        <a href="{% url 'order_progress' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
-                            SEE
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
     </div>
 </div>
 {% endblock %}
