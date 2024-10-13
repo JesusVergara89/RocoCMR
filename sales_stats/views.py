@@ -1,5 +1,4 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
-from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order
@@ -10,6 +9,9 @@ from datetime import timedelta
 
 class StatsView(LoginRequiredMixin,TemplateView):
     template_name = "sales_stats/stats.html"
+
+class PieChartViews(LoginRequiredMixin, TemplateView):
+    template_name  = "sales_stats/piechart_templates.html"
 
 class OrderOverView(LoginRequiredMixin, ListView):
     model = Order
@@ -149,19 +151,15 @@ class OrdersProgress(LoginRequiredMixin, ListView):
         sales_associate_id = self.request.GET.get('sales_associate')
         product_id = self.request.GET.get('product')
 
-        # Obtener las fechas de inicio y fin de la solicitud GET
         start_date = self.request.GET.get('start_date')
         end_date = self.request.GET.get('end_date')
 
-        # Filtrar por vendedor
         if sales_associate_id:
             queryset = queryset.filter(sales_associate_id=sales_associate_id)
 
-        # Filtrar por producto
         if product_id:
             queryset = queryset.filter(product_id=product_id)
 
-        # Filtrar por fecha de creación (created_at)
         if start_date:
             queryset = queryset.filter(created_at__gte=start_date)
 
