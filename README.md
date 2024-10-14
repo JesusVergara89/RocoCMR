@@ -16,7 +16,7 @@ Roco Sales Management System is a Django-based application designed to streamlin
 
 - Django
 - Python
-- SQLite (or your preferred database)
+- Postgres
 - HTML/CSS
 - JavaScript
 
