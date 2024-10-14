@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,6 +18,11 @@ class OrderOverView(LoginRequiredMixin, ListView):
     model = Order
     template_name = "sales_stats/order_stats.html"
     context_object_name = "orders"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return render(request, '403_error_order_stats.html', status=403)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Order.objects.all()

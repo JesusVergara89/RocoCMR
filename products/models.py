@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -23,17 +21,11 @@ class ProductHistory(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
     available = models.BooleanField(default=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True) 
+    country = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f'History of {self.product.name} at {self.created}'
 
 
-@receiver(post_save, sender=Product)
-def create_product_history(sender, instance, created, **kwargs):
-    ProductHistory.objects.create(
-        product=instance,
-        name=instance.name,
-        price=instance.price,
-        quantity=instance.quantity,
-        available=instance.available
-    )

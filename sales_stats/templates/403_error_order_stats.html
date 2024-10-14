@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-10">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" style="z-index: 0s;">
+        <strong class="font-bold">Access Denied!</strong>
+        <span class="block sm:inline">You do not have permission to access this page.</span>
+        <a href="{% url 'stats' %}" class="mt-4 inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Back stats</a>        
+    </div>
+</div>
+{% endblock %}

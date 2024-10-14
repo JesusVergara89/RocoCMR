@@ -92,7 +92,7 @@
         <tbody>
             {% for order in orders %}
             <tr class="border-t border-gray-200">
-                <td class="px-4 py-2">{{ order.client }}</td>
+                <td class="px-4 py-2">{% if request.user.is_superuser %}{{ order.client }}{% else %}Not available{% endif %}</td>
                 <td class="px-4 text-sm py-2">{{ order.product }}</td>
                 <td class="px-4 py-2">{{ order.quantity }}</td>
                 <td class="px-4 py-2">{{ order.sales_associate }}</td>
