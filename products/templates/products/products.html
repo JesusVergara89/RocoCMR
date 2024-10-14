@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load humanize %}
 {% block content %}
 <h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Products in stock</h1>
@@ -10,40 +10,54 @@
 <div class="container mx-auto p-10">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> 
     {% for product in products %}
-    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative flex flex-col">
-      <img class="rounded-t-lg" src="{{ product.url_image }}" alt="" />
+    <div class="max-w-sm h-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative flex flex-col">
+      <img class="rounded-t-lg w-full h-70 object-cover" src="{{ product.url_image }}" alt="{{ product.name }}" />
       
       <div class="p-5 flex-1">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-200">{{ product.name }} </h5>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              {{ product.description }} 
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-200">{{ product.name }}</h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 product-description">
+              {{ product.description }}
           </p>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              <strong>Updated:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.updated|date:"F j, Y" }} </span>
+              <strong>Updated:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.updated|date:"F j, Y" }}</span>
           </p>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            <strong>Price:</strong> <span class="text-gray-600 dark:text-gray-300">${{ product.price|floatformat:2|intcomma }} </span>
-        </p>
+              <strong>Price:</strong> <span class="text-gray-600 dark:text-gray-300">${{ product.price|floatformat:2|intcomma }}</span>
+          </p>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              <strong>Quantity:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.quantity }} </span>
+              <strong>Quantity:</strong> <span class="text-gray-600 dark:text-gray-300">{{ product.quantity }}</span>
           </p>
       </div> 
 
       <div class="flex gap-10 justify-center mt-4 py-5"> 
         <a href="{% url 'update_product' product.id %}" class="transition duration-300 hover:fill-[#f8f3f3]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="fill-white hover:fill-[#f8f3f3]">
-                <path d="M19.045 7.401c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.378-.378-.88-.586-1.414-.586s-1.036.208-1.413.585L4 13.585V18h4.413L19.045 7.401zm-3-3 1.587 1.585-1.59 1.584-1.586-1.585 1.589-1.584zM6 16v-1.585l7.04-7.018 1.586 1.586L7.587 16H6zm-2 4h16v2H4z"></path>
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="fill-white hover:fill-[#f8f3f3]">
+              <path d="M19.045 7.401c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.378-.378-.88-.586-1.414-.586s-1.036.208-1.413.585L4 13.585V18h4.413L19.045 7.401zm-3-3 1.587 1.585-1.59 1.584-1.586-1.585 1.589-1.584zM6 16v-1.585l7.04-7.018 1.586 1.586L7.587 16H6zm-2 4h16v2H4z"></path>
+          </svg>
         </a>
         <a href="{% url 'delete_product' product.id %}" class="transition duration-300 hover:fill-[#f8f3f3]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="fill-white hover:fill-[#f8f3f3]">
-                <path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path>
-                <path d="M9 10h2v8H9zm4 0h2v8h-2z"></path>
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" class="fill-white hover:fill-[#f8f3f3]">
+              <path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path>
+              <path d="M9 10h2v8H9zm4 0h2v8h-2z"></path>
+          </svg>
         </a>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const descriptions = document.querySelectorAll('.product-description');
+
+    descriptions.forEach(description => {
+      const text = description.textContent;
+      if (text.length > 150) {
+        description.textContent = text.substring(0, 150) + '...';
+      }
+    });
+  });
+</script>
+
 {% endblock %}

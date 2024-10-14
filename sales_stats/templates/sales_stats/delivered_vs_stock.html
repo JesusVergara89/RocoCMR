@@ -10,6 +10,9 @@
         {% for product, data in stock_data.items %}
         <div class="p-6 shadow-md rounded-lg border border-gray-300">
             <h2 class="text-lg font-semibold text-center mb-4">{{ product }}</h2>
+            <div class="bg-yellow-200 p-2 rounded">
+                <span class="text-gray-700 font-bold">Ordered:</span> {{ data.ordered }} ({{ data.ordered_percentage|floatformat:2 }}%)
+            </div>
             <canvas id="pieChart-{{ forloop.counter }}" width="500" height="500"></canvas>
             <script>
                 var ctx = document.getElementById('pieChart-{{ forloop.counter }}').getContext('2d');
