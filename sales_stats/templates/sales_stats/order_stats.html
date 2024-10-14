@@ -22,7 +22,7 @@
 
         <div class="flex flex-col">
             <label for="product" class="text-sm font-medium text-gray-700">products:</label>
-            <select name="product" id="product" class="border border-gray-300 rounded px-3 py-2">
+            <select name="product" id="product" class="border border-gray-300 rounded px-3 py-2 w-full sm:w-auto max-w-full">
                 <option value="">All products</option>
                 {% for product in products %}
                     <option value="{{ product.id }}" {% if request.GET.product == product.id|stringformat:"s" %}selected{% endif %}>

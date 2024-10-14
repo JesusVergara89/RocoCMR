@@ -116,6 +116,9 @@ class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
         delivered = self.request.GET.get('delivered')
         canceled = self.request.GET.get('canceled')
 
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+
         if sales_associate_id:
             queryset = queryset.filter(sales_associate_id=sales_associate_id)
 
@@ -130,6 +133,12 @@ class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
 
         if canceled is not None and canceled != '':
             queryset = queryset.filter(canceled=canceled)
+
+        if start_date:
+            queryset = queryset.filter(created_at__gte=start_date)
+
+        if end_date:
+            queryset = queryset.filter(created_at__lte=end_date)
 
         return queryset
 

@@ -23,7 +23,7 @@
 
         <div class="flex flex-col">
             <label for="product" class="text-sm font-medium text-gray-700">Products:</label>
-            <select name="product" id="product" class="border border-gray-300 rounded px-3 py-2">
+            <select name="product" id="product" class="border border-gray-300 rounded px-3 py-2 w-full sm:w-auto max-w-full">
                 <option value="">All products</option>
                 {% for product in products %}
                     <option value="{{ product.id }}" {% if request.GET.product == product.id|stringformat:"s" %}selected{% endif %}>
@@ -59,6 +59,16 @@
                 <option value="False" {% if request.GET.canceled == 'False' %}selected{% endif %}>Not</option>
             </select>
         </div>
+    </div>
+
+    <div class="flex items-center">
+        <label for="start_date" class="mr-2">Start Date:</label>
+        <input type="date" name="start_date" id="start_date" class="border rounded p-1" value="{{ request.GET.start_date }}">
+    </div>
+
+    <div class="flex items-center">
+        <label for="end_date" class="mr-2">End Date:</label>
+        <input type="date" name="end_date" id="end_date" class="border rounded p-1" value="{{ request.GET.end_date }}">
     </div>
 
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Filter</button>
