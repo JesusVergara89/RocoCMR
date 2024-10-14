@@ -28,6 +28,9 @@ class OrderOverView(LoginRequiredMixin, ListView):
         delivered = self.request.GET.get('delivered')
         canceled = self.request.GET.get('canceled')
 
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')        
+
         if sales_associate_id:
             queryset = queryset.filter(sales_associate_id=sales_associate_id)
 
@@ -46,6 +49,14 @@ class OrderOverView(LoginRequiredMixin, ListView):
         if canceled is not None and canceled != '':
             queryset = queryset.filter(canceled=canceled)
 
+        if start_date:
+            queryset = queryset.filter(created_at__gte=start_date)
+
+        if end_date:
+            queryset = queryset.filter(created_at__lte=end_date)
+            
+        queryset = queryset.order_by('-created_at')            
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -54,7 +65,7 @@ class OrderOverView(LoginRequiredMixin, ListView):
         context['products'] = Product.objects.all()
         return context
     
-class PieChartSctockVs(LoginRequiredMixin, ListView):
+class PieChartStockVs(LoginRequiredMixin, ListView):
     model = Product
     context_object_name = 'products'
 
@@ -140,6 +151,8 @@ class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
         if end_date:
             queryset = queryset.filter(created_at__lte=end_date)
 
+        queryset = queryset.order_by('-created_at')
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -178,6 +191,8 @@ class OrdersProgress(LoginRequiredMixin, ListView):
 
         if end_date:
             queryset = queryset.filter(created_at__lte=end_date)
+
+        queryset = queryset.order_by('-created_at')
 
         return queryset
 
