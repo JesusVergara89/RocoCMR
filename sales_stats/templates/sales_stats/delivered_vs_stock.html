@@ -52,7 +52,7 @@
             </script>                
             <div class="flex flex-col mt-4 text-left">
                 <div class="bg-blue-200 p-2 rounded">
-                    <span class="text-gray-700 font-bold">Stock:</span> {{ data.stock }} ({{ data.new_stock_percentage | floatformat:2 }}%)
+                    <span class="text-gray-700 font-bold">Stock:</span> {{ data.stock }} ({{ data.new_stock_delivered | floatformat:2 }}%)
                 </div>
                 <div class="bg-red-200 p-2 rounded"> 
                     <span class="text-gray-700 font-bold">Delivered:</span> {{ data.delivered }} ({{ data.delivered_percentage|floatformat:2 }}%)

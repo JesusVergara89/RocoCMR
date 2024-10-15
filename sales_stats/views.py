@@ -19,11 +19,6 @@ class OrderOverView(LoginRequiredMixin, ListView):
     template_name = "sales_stats/order_stats.html"
     context_object_name = "orders"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            return render(request, '403_error_order_stats.html', status=403)
-        return super().dispatch(request, *args, **kwargs)
-
     def get_queryset(self):
         queryset = Order.objects.all()
 
@@ -92,11 +87,14 @@ class PieChartStockVs(LoginRequiredMixin, ListView):
 
             total_stock = product.quantity
 
-            ordered_percentage = (ordered_quantity / total_stock * 100) if total_stock > 0 else 0
-            delivered_percentage = (delivered_quantity / total_stock * 100) if total_stock > 0 else 0
-            paid_percentage = (paid_quantity / total_stock * 100) if total_stock > 0 else 0
-            in_warehouse_percentage = (in_warehouse_quantity / total_stock * 100) if total_stock > 0 else 0
-            new_stock_percentage = 100 - ordered_percentage - delivered_percentage - paid_percentage - in_warehouse_percentage
+            ordered_percentage = (ordered_quantity / (total_stock + ordered_quantity ) * 100) if total_stock > 0 else 0
+            delivered_percentage = (delivered_quantity / (total_stock + delivered_quantity) * 100) if total_stock > 0 else 0
+            paid_percentage = (paid_quantity / (total_stock + paid_quantity) * 100) if total_stock > 0 else 0
+            in_warehouse_percentage = (in_warehouse_quantity / (total_stock + in_warehouse_quantity) * 100) if total_stock > 0 else 0
+            new_stock_orders = 100 - ordered_percentage
+            new_stock_paid = 100 - paid_percentage
+            new_stock_in_warehouse = 100 - in_warehouse_percentage
+            new_stock_delivered = 100 - delivered_percentage
 
             stock_data[product.name] = {
                 'stock': total_stock,
@@ -107,8 +105,10 @@ class PieChartStockVs(LoginRequiredMixin, ListView):
                 'ordered_percentage': ordered_percentage,
                 'delivered_percentage': delivered_percentage,
                 'paid_percentage': paid_percentage,
-                'in_warehouse_percentage': in_warehouse_percentage,
-                'new_stock_percentage': new_stock_percentage
+                'new_stock_orders': new_stock_orders,
+                'new_stock_paid': new_stock_paid,
+                'new_stock_in_warehouse': new_stock_in_warehouse,
+                'new_stock_delivered': new_stock_delivered
             }
 
         context['stock_data'] = stock_data
@@ -218,7 +218,7 @@ class OrdersProgress(LoginRequiredMixin, ListView):
                 if order.delivery_date:
                     if order.delivery_date <= order.last_delivery_date:
                         order.delivery_status_color = 'green'
-                        order.status = 'Delivered on time'
+                        order.status = 'Delivery on time'
                     else:
                         order.status = 'Delivery delay'
                     order.last_paid_date = order.delivery_date + timedelta(days=1)
@@ -246,7 +246,7 @@ class OrdersProgress(LoginRequiredMixin, ListView):
                 if timezone.now().date() < order.last_delivery_date:
                     order.delivery_status_color = 'orange'
                     order.payment_status_color = 'orange'
-                    order.status = 'Delivered on time'
+                    order.status = 'Delivery on time'
                     order.last_paid_date = None
                 elif timezone.now().date() > order.last_delivery_date:
                     order.delivery_status_color = 'red'

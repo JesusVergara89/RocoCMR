@@ -33,17 +33,18 @@ class UpdateProductView(LoginRequiredMixin, generic.UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        form_response = super().form_valid(form)
+
         ip_address = self.request.META.get('REMOTE_ADDR')
         country = None
         city = None
 
         if ip_address:
             try:
-                response = requests.get(f'http://ip-api.com/json/{ip_address}').json()
-                if response['status'] == 'success':
-                    country = response.get('country')
-                    city = response.get('city')
+                location_response = requests.get(f'http://ip-api.com/json/{ip_address}').json()
+                if location_response['status'] == 'success':
+                    country = location_response.get('country')
+                    city = location_response.get('city')
             except Exception as e:
                 print(f'Error fetching location: {e}')
 
@@ -58,7 +59,7 @@ class UpdateProductView(LoginRequiredMixin, generic.UpdateView):
             city=city
         )
 
-        return response
+        return form_response
 
 class ProductFormView(LoginRequiredMixin, generic.FormView):
     template_name = 'products/add_product.html'
@@ -80,6 +81,7 @@ class ProductFormView(LoginRequiredMixin, generic.FormView):
         if ip_address:
             try:
                 response = requests.get(f'http://ip-api.com/json/{ip_address}').json()
+                print(response, 'this is the response')
                 if response['status'] == 'success':
                     country = response.get('country')
                     city = response.get('city')

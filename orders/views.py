@@ -21,9 +21,19 @@ class OrdersView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return Order.objects.all()
+            queryset = Order.objects.all()
         else:
-            return Order.objects.filter(sales_associate=self.request.user)
+            queryset = Order.objects.filter(sales_associate=self.request.user)
+
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+
+        if start_date:
+            queryset = queryset.filter(created_at__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(created_at__lte=end_date)
+
+        return queryset.order_by('-created_at')        
         
 class OrderFormView(LoginRequiredMixin, CreateView):
     template_name = "orders/add_order.html"
@@ -92,4 +102,30 @@ def admin_order_pdf(request, order_id):
     weasyprint.HTML(string=html).write_pdf(response)
     
     return response
+
+
+
+def get_queryset(self):
+        queryset = Order.objects.all()
+        sales_associate_id = self.request.GET.get('sales_associate')
+        product_id = self.request.GET.get('product')
+
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+
+        if sales_associate_id:
+            queryset = queryset.filter(sales_associate_id=sales_associate_id)
+
+        if product_id:
+            queryset = queryset.filter(product_id=product_id)
+
+        if start_date:
+            queryset = queryset.filter(created_at__gte=start_date)
+
+        if end_date:
+            queryset = queryset.filter(created_at__lte=end_date)
+
+        queryset = queryset.order_by('-created_at')
+
+        return queryset
 

@@ -25,6 +25,10 @@ class ProductHistory(models.Model):
     country = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
 
+    class Meta:
+        verbose_name = "Product history"
+        verbose_name_plural = "Product histories"
+
     def __str__(self):
         return f'History of {self.product.name} at {self.created}'
 
