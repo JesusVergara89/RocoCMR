@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-r$6nj45yrxh2)xx!kih1jyntfn&2xjo=ukpi%h=k$owmouw1=%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rococrm-production.eba-9cupqppa.us-east-2.elasticbeanstalk.com']
 
 # Application definition
 
