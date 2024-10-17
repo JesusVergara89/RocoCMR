@@ -13,6 +13,7 @@ from products.models import Product
 from django.shortcuts import render
 from decimal import Decimal
 from .tasks import send_order_invoice
+from clients.models import Client
 
 class OrdersView(LoginRequiredMixin, ListView):
     model = Order
@@ -39,6 +40,11 @@ class OrderFormView(LoginRequiredMixin, CreateView):
     template_name = "orders/add_order.html"
     form_class = OrderForm
     success_url = reverse_lazy("orders")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'].fields['client'].queryset = Client.objects.filter(sales_associate=self.request.user)
+        return context
 
     def form_valid(self, form):
         form.instance.sales_associate = self.request.user
