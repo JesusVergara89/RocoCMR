@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     description = models.TextField(max_length=200)
     quantity = models.IntegerField()
     available = models.BooleanField(default=True)
@@ -19,7 +19,7 @@ class ProductHistory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     updated_for = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField()
     available = models.BooleanField(default=True)
