@@ -242,6 +242,11 @@ class OrdersProgress(LoginRequiredMixin, ListView):
                 else:
                     order.status = 'Delivered without date'
                     order.last_paid_date = None
+            elif order.canceled:
+                    order.delivery_status_color = 'red'
+                    order.payment_status_color = 'red'
+                    order.status = 'Canceled'
+                    order.last_paid_date = None
             else:
                 if timezone.now().date() < order.last_delivery_date:
                     order.delivery_status_color = 'orange'
