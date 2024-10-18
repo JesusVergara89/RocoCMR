@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -19,6 +20,7 @@ class ProductHistory(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    updated_for = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField()
     available = models.BooleanField(default=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True) 
