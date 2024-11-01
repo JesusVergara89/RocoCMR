@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+{% load humanize %}
+{% block content %}
+<div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+        
+        <div class="flex flex-col items-center m-2"> 
+            <div class="relative max-w-sm h-18 m-2"> 
+                <div class="relative h-full p-3 bg-white rounded-lg border-2 border-[#003366]">
+                    <div class="flex flex-col items-center h-full"> 
+                        <a href="{% url 'add_city' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                            Add City
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center m-2"> 
+            <div class="relative max-w-sm h-18 m-2"> 
+                <div class="relative h-full p-3 bg-white rounded-lg border-2 border-[#003366]">
+                    <div class="flex flex-col items-center h-full"> 
+                        <a href="{% url 'add_city' %}" class="block w-40 mt-auto text-center p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                            Add Stock
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center m-2"> 
+            <div class="relative max-w-sm h-18 m-2"> 
+                <div class="relative h-full p-3 bg-white rounded-lg border-2 border-[#003366]">
+                    <div class="flex flex-col items-center h-full"> 
+                        <a href="{% url 'cities' %}" class="block w-40 mt-auto text-center p-2 bg-blue-950 hover:bg-blue-900 text-white font-bold rounded">
+                            Cities
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="flex flex-col items-center m-2"> 
+            <div class="relative max-w-sm h-18 m-2"> 
+                <div class="relative h-full p-3 bg-white rounded-lg border-2 border-[#003366]">
+                    <div class="flex flex-col items-center h-full"> 
+                        <a href="{% url 'add_city' %}" class="block w-40 mt-auto text-center p-2 bg-blue-950 hover:bg-blue-900 text-white font-bold rounded">
+                            Last Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="h-[100px]"></div>
+{% endblock %}
