@@ -23,4 +23,13 @@ class CityFormView(LoginRequiredMixin, generic.FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+    
+class StockFormView(LoginRequiredMixin, generic.FormView):
+    template_name = "stock/add_stock.html"
+    form_class = StockForm
+    success_url = reverse_lazy("cities")
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
