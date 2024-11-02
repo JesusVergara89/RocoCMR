@@ -24,6 +24,7 @@ class Stock(models.Model):
             raise ValidationError(f'Not enough stock available for {self.product.name}. Available: {self.product.quantity}')
         
         self.product.quantity -= self.quantity
+        self.product.save()  # Guarda los cambios en el producto
 
         super().save(*args, **kwargs)
 

@@ -12,12 +12,8 @@ class StockForm(forms.ModelForm):
             'quantity': "Product quantity",
         }
 
-    created = forms.DateTimeField(label="Created at", disabled=True, initial=now)
-    updated = forms.DateTimeField(label="Last updated", disabled=True, initial=now)
-
     def save(self, commit=True):
         stock = super().save(commit=False)
-        stock.updated = now() 
         if commit:
             stock.save()
         return stock
