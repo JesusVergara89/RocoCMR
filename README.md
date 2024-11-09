@@ -4,8 +4,6 @@
 
 Roco Sales Management System is a Django based application designed to streamline the sales process by effectively managing products, customers, sellers, and administrators. The application provides a comprehensive platform for tracking sales, managing inventory, and facilitating communication between users.
 
-- **URL:** http://rococrm-production.eba-9cupqppa.us-east-2.elasticbeanstalk.com/
-
 ## Features
 
 - **Product Management:** Add, update, and delete products easily.

@@ -24,6 +24,11 @@ class CityFormView(LoginRequiredMixin, generic.FormView):
         form.save()
         return super().form_valid(form)
     
+class StockView(LoginRequiredMixin, ListView):
+    template_name = "stock/stocks.html"
+    model = Stock
+    context_object_name = "stocks"
+    
 class StockFormView(LoginRequiredMixin, generic.FormView):
     template_name = "stock/add_stock.html"
     form_class = StockForm
