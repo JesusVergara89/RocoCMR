@@ -4,9 +4,9 @@ from .models import Stock, City
 
 class StockAdmin(admin.ModelAdmin):
     model = Stock
-    list_display = ("product", "city", "quantity")
+    list_display = ("id","product", "city", "quantity")
     search_fields = ("product", "city", "quantity")
-    list_display_links = ("product", "city", "quantity")
+    list_display_links = ("id","product", "city", "quantity")
 
 
 class CityAdmin(admin.ModelAdmin):

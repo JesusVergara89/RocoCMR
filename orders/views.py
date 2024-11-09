@@ -10,6 +10,7 @@ from .models import Order
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import OrderForm
 from products.models import Product
+from stock.models import Stock
 from django.shortcuts import render
 from decimal import Decimal
 from .tasks import send_order_invoice
@@ -48,19 +49,24 @@ class OrderFormView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.sales_associate = self.request.user
-        product = get_object_or_404(Product, id=form.cleaned_data['product'].id)
-        if product.quantity < form.cleaned_data['quantity']:
+        stock_item = get_object_or_404(Stock, id=form.cleaned_data['product'].id)
+        if stock_item.quantity < form.cleaned_data['quantity']:
             form.add_error('quantity', 'No hay suficiente cantidad en stock.')
             return self.form_invalid(form)
-        order = form.save(commit=False) 
-        order.in_warehouse = True 
+        
+        order = form.save(commit=False)  
+        order.in_warehouse = True
         order.delivered = False
-        order.paid = False 
-        order.save() 
-        product.quantity -= order.quantity
-        product.save()
+        order.paid = False
+        order.save()
+
+        stock_item.quantity -= order.quantity
+        stock_item.save()
+
         send_order_invoice(order.id)
+
         return super().form_valid(form)
+
 
     
 class OrderUpdateView(LoginRequiredMixin, UpdateView):

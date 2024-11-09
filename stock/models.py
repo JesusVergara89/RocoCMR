@@ -19,12 +19,22 @@ class Stock(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    name = models.CharField(max_length=100, default="Nombre no disponible")
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    description = models.TextField(max_length=200, default="Sin descripción")
+    url_image = models.URLField(max_length=500, null=True, blank=True)
+
     def save(self, *args, **kwargs):
-        if self.quantity > self.product.quantity:
-            raise ValidationError(f'Not enough stock available for {self.product.name}. Available: {self.product.quantity}')
-        
-        self.product.quantity -= self.quantity
-        self.product.save()  # Guarda los cambios en el producto
+        self.name = self.product.name
+        self.price = self.product.price
+        self.description = self.product.description
+        self.url_image = self.product.url_image
+
+        if not self.pk: 
+            if self.quantity > self.product.quantity:
+                raise ValidationError(f'Not enough stock available for {self.product.name}. Available: {self.product.quantity}')
+            self.product.quantity -= self.quantity
+            self.product.save() 
 
         super().save(*args, **kwargs)
 

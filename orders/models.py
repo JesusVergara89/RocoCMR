@@ -1,13 +1,14 @@
 from django.db import models
 from clients.models import Client
 from products.models import Product
+from stock.models import Stock
 from django.contrib.auth.models import User
 from decimal import Decimal
 from django.utils import timezone
 
 class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Stock, on_delete=models.CASCADE)
     comments = models.CharField(max_length=500, null=True, blank=True)
     sales_associate = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL
