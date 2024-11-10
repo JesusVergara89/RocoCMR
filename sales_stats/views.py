@@ -4,6 +4,7 @@ from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order
 from products.models import Product
+from stock.models import Stock
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
@@ -67,11 +68,11 @@ class OrderOverView(LoginRequiredMixin, ListView):
         return context
     
 class PieChartStockVs(LoginRequiredMixin, ListView):
-    model = Product
+    model = Stock
     context_object_name = 'products'
 
     def get_queryset(self):
-        return Product.objects.filter(available=True)
+        return Stock.objects.filter(available=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -165,7 +166,7 @@ class SellerByMoneyRecovery(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['sales_associates'] = User.objects.all()
-        context['products'] = Product.objects.all()
+        context['products'] = Stock.objects.all()
 
         orders = context['orders']
         for order in orders:
@@ -206,7 +207,7 @@ class OrdersProgress(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context['sales_associates'] = User.objects.all()
-        context['products'] = Product.objects.all()
+        context['products'] = Stock.objects.all()
 
         for order in context['orders']:
             order.delivery_status_color = 'red'

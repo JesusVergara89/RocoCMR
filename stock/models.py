@@ -23,12 +23,14 @@ class Stock(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     description = models.TextField(max_length=200, default="Sin descripción")
     url_image = models.URLField(max_length=500, null=True, blank=True)
+    available = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         self.name = self.product.name
         self.price = self.product.price
         self.description = self.product.description
         self.url_image = self.product.url_image
+        self.available = self.product.available
 
         if not self.pk: 
             if self.quantity > self.product.quantity:
