@@ -20,6 +20,11 @@ class CityFormView(LoginRequiredMixin, generic.FormView):
     form_class = CityForm
     success_url = reverse_lazy("cities")
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return render(request, '403_error_city_stock.html', status=403)
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -33,6 +38,11 @@ class StockFormView(LoginRequiredMixin, generic.FormView):
     template_name = "stock/add_stock.html"
     form_class = StockForm
     success_url = reverse_lazy("cities")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return render(request, '403_error_city_stock.html', status=403)
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.save()
