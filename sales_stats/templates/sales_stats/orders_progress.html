@@ -14,7 +14,7 @@
                 <select name="product" id="product" class="border border-gray-300 rounded p-2 w-full">
                     <option value="">All Products</option>
                     {% for product in products %}
-                        <option value="{{ product.id }}"{% if request.GET.product|stringformat:"s" == product.id|stringformat:"s" %} selected{% endif %}>{{ product.name }}</option>
+                        <option value="{{ product.id }}"{% if request.GET.product|stringformat:"s" == product.id|stringformat:"s" %} selected{% endif %}>{{ product }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -64,7 +64,7 @@ class OrderOverView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sales_associates'] = User.objects.all()
-        context['products'] = Product.objects.all()
+        context['products'] = Stock.objects.all()
         return context
     
 class PieChartStockVs(LoginRequiredMixin, ListView):
