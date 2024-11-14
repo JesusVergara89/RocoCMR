@@ -37,7 +37,7 @@ class StockView(LoginRequiredMixin, ListView):
 class StockFormView(LoginRequiredMixin, generic.FormView):
     template_name = "stock/add_stock.html"
     form_class = StockForm
-    success_url = reverse_lazy("cities")
+    success_url = reverse_lazy("stocks")
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
