@@ -5,6 +5,7 @@ from .forms import CityForm, StockForm
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from .models import City, Stock
+from django.core.exceptions import ValidationError
 
 
 class CityStockView(LoginRequiredMixin,TemplateView):
@@ -45,6 +46,10 @@ class StockFormView(LoginRequiredMixin, generic.FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
+        try:
+            form.save()
+            return super().form_valid(form)
+        except ValidationError as e:
+            return render(self.request, 'stock/inside_errors.html', {
+                'error_message': e.message
+            })
