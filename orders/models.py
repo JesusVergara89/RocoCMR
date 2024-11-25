@@ -33,7 +33,13 @@ class Order(models.Model):
         
     def get_taxes(self):
         if isinstance(self.product.price, Decimal):
-            return self.subtotal_price() * Decimal('0.19')
+            return self.subtotal_price() * Decimal('0.05')
+        else:
+            raise ValueError("El precio del producto debe ser un Decimal.")
+    
+    def get_hipo_consumption(self):
+        if isinstance(self.product.price, Decimal):
+            return self.subtotal_price() * Decimal('0.08')
         else:
             raise ValueError("El precio del producto debe ser un Decimal.")
     
