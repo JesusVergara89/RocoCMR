@@ -21,7 +21,12 @@ class Client(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     city = models.CharField(max_length=150, null=True, blank=True)
     state = models.CharField(max_length=150, null=True, blank=True)
-    tax_identification_number = models.CharField(max_length=150, null=True, blank=True)
+    tax_identification_number = models.CharField(
+        max_length=150,
+        null=True,
+        unique=True,
+        blank=True
+        )
     tax_regime = models.CharField(
         max_length=150, 
         choices=STATE_CHOICES, 

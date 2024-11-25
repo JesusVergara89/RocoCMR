@@ -1,47 +1,101 @@
-{% extends 'base.html' %}
-{% load custom_tags %}
-
-{% block content %}
-<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">Add Client</h1>
+{% extends 'base.html' %} {% load custom_tags %} {% block content %}
+<h1 class="text-2xl text-blue-950 text-center font-bold mb-8 mt-10">
+  Add Client
+</h1>
 
 <div class="container mx-auto p-10">
-    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden md:max-w-xl">
-        <div class="md:flex">
-            <div class="w-full px-6 py-8 md:p-8">
-                <form class="mt-6" method="post" action="{% url 'add_clients' %}">
-                    {% csrf_token %}
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
-                        {{ form.name|add_class:"border p-2 rounded w-full" }}
-                    </div>
-                    <div class="mb-4">
-                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last name:</label>
-                        {{ form.last_name|add_class:"border p-2 rounded w-full" }}
-                    </div>
-                    <div class="mb-4">
-                        <label for="business_name" class="block text-sm font-medium text-gray-700">Business name:</label>
-                        {{ form.business_name|add_class:"border p-2 rounded w-full" }}
-                    </div> 
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                        {{ form.email|add_class:"border p-2 rounded w-full" }}
-                    </div> 
-                    <div class="mb-4">
-                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone:</label>
-                        {{ form.phone|add_class:"border p-2 rounded w-full" }}
-                    </div>
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Address:</label>
-                        {{ form.address|add_class:"border p-2 rounded w-full" }}
-                    </div> 
-                    <div class="mb-4 flex items-center">
-                        {{ form.is_active|add_class:"mr-2" }}
-                        <label>{{ form.is_active.label }}</label>
-                    </div>                       
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Add client</button>
-            </form>
-            </div>
-        </div>
+  <div
+    class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden md:max-w-xl"
+  >
+    <div class="md:flex">
+      <div class="w-full px-6 py-8 md:p-8">
+        <form class="mt-6" method="post" action="{% url 'add_clients' %}">
+          {% csrf_token %}
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700"
+              >Name:</label
+            >
+            {{ form.name|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label
+              for="last_name"
+              class="block text-sm font-medium text-gray-700"
+              >Last name:</label
+            >
+            {{ form.last_name|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label
+              for="business_name"
+              class="block text-sm font-medium text-gray-700"
+              >Business name:</label
+            >
+            {{ form.business_name|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label
+              for="social_name"
+              class="block text-sm font-medium text-gray-700"
+              >Social name:</label
+            >
+            {{ form.social_name|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="city" class="block text-sm font-medium text-gray-700"
+              >City:</label
+            >
+            {{ form.city|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="state" class="block text-sm font-medium text-gray-700"
+              >State:</label
+            >
+            {{ form.state|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="tax_identification_number" class="block text-sm font-medium text-gray-700"
+              >NIT:</label
+            >
+            {{ form.tax_identification_number|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="tax_regime" class="block text-sm font-medium text-gray-700"
+              >Tax regime:</label
+            >
+            {{ form.tax_regime|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700"
+              >Email:</label
+            >
+            {{ form.email|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="phone" class="block text-sm font-medium text-gray-700"
+              >Phone:</label
+            >
+            {{ form.phone|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4">
+            <label for="address" class="block text-sm font-medium text-gray-700"
+              >Address:</label
+            >
+            {{ form.address|add_class:"border p-2 rounded w-full" }}
+          </div>
+          <div class="mb-4 flex items-center">
+            {{ form.is_active|add_class:"mr-2" }}
+            <label>{{ form.is_active.label }}</label>
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+          >
+            Add client
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
