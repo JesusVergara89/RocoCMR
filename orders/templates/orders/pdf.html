@@ -59,8 +59,12 @@
                         <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-size: 0.9rem;">$0.00</td>
                     </tr>
                     <tr>
-                        <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 0.9rem;">Tax (19%):</td>
+                        <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 0.9rem;">Tax (5%):</td>
                         <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-size: 0.9rem;">${{ order.get_taxes|floatformat:2|intcomma }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 0.9rem;">H.C. (8%):</td>
+                        <td style="padding: 7px; border-bottom: 1px solid #e0e0e0; font-size: 0.9rem;">${{ order.get_hipo_consumption|floatformat:2|intcomma }}</td>
                     </tr>                    
                     <tr>
                         <td style="padding: 7px; border-bottom: 2px solid #1f2937; font-weight: bold; font-size: 1rem;">Total:</td>

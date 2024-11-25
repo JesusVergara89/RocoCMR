@@ -44,7 +44,7 @@ class Order(models.Model):
             raise ValueError("El precio del producto debe ser un Decimal.")
     
     def get_total_price(self):
-        return self.subtotal_price() + self.get_taxes()
+        return self.subtotal_price() + self.get_taxes() + self.get_hipo_consumption()
 
     def save(self, *args, **kwargs):
         if self.canceled:
