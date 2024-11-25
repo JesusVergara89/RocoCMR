@@ -21,11 +21,14 @@
                         </path>
                     </svg>
                     <div class="flex flex-col ml-1">
-                        <h2 class="my-2 ml-3 text-lg font-bold text-gray-800">Business Name:</h2>
-                        <h3 class="my-2 ml-3 text-lg font-bold text-gray-800">{{ client.business_name }}</h3> 
+                        <h2 class="my-2 ml-3 text-lg font-bold text-gray-800">Social Name:</h2>
+                        <h3 class="my-2 ml-3 text-lg font-bold text-gray-800">{{ client.social_name }}</h3> 
                     </div>                            
                 </div>
         
+                <p class="my-2 text-gray-600">
+                    <span class="font-semibold">Business name: </span>{{ client.business_name }}
+                </p>
                 <p class="my-2 text-gray-600">
                     <span class="font-semibold">Owner: </span>{{ client.name }} {{ client.last_name }}
                 </p>
@@ -36,7 +39,22 @@
                     <span class="font-semibold">Phone: </span>{{ client.phone }}
                 </p>
                 <p class="my-2 text-gray-600">
+                    <span class="font-semibold">City: </span>{{ client.city }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <span class="font-semibold">State: </span>{{ client.state }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <span class="font-semibold">NIT: </span>{{ client.tax_identification_number }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <span class="font-semibold">Tax regime: </span>{{ client.tax_regime }}
+                </p>
+                <p class="my-2 text-gray-600">
                     <span class="font-semibold">Address: </span>{{ client.address }}
+                </p>
+                <p class="my-2 text-gray-600">
+                    <span class="font-semibold">Sales associate: </span>{{ client.sales_associate }}
                 </p>
             </div>
         </div>
